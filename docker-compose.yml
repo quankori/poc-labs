@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017" # MongoDB default port
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: examplepassword
+    volumes:
+      - mongo-data:/data/db
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432" # PostgreSQL default port
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379" # Redis default port
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
+    driver: local
+  postgres-data:
+    driver: local
+  redis_data:
+    driver: local
