@@ -6,12 +6,15 @@ import {
   HealthCheckService,
   HttpHealthIndicator,
 } from '@nestjs/terminus';
+import { InjectMetric } from '@willsoto/nestjs-prometheus';
+import { Counter, Registry } from 'prom-client';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private health: HealthCheckService,
+    @InjectMetric('http_requests_total') private readonly httpRequestCounter: Counter<string>,
   ) {}
 
   @Get()
@@ -19,9 +22,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/heath')
+  @Get('heath')
   @HealthCheck()
   check() {
+    this.httpRequestCounter.inc(); 
     return this.health.check([]);
   }
 }

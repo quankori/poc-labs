@@ -69,6 +69,26 @@ services:
     stdin_open: true
     tty: true
 
+  api-gateway-svc:
+    build:
+      context: ./api-gateway-svc
+      dockerfile: Dockerfile
+    image: api-gateway-svc
+    container_name: api-gateway-svc
+    ports:
+      - "8200:3000"
+    volumes:
+      - ./api-gateway-svc:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+    depends_on:
+      - grafana
+    stdin_open: true
+    tty: true
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
     environment:
