@@ -48,46 +48,46 @@ services:
     networks:
       - app-network
 
-  notification-svc:
-    build:
-      context: ./notification-svc
-      dockerfile: Dockerfile
-    image: notification-svc
-    container_name: notification-svc
-    ports:
-      - "8100:3000"
-    volumes:
-      - ./notification-svc:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
-    networks:
-      - app-network
-    depends_on:
-      - postgres
-      - mongo
-    stdin_open: true
-    tty: true
+  # notification-svc:
+  #   build:
+  #     context: ./notification-svc
+  #     dockerfile: Dockerfile
+  #   image: notification-svc
+  #   container_name: notification-svc
+  #   ports:
+  #     - "8100:8100"
+  #   volumes:
+  #     - ./notification-svc:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - postgres
+  #     - mongo
+  #   stdin_open: true
+  #   tty: true
 
-  api-gateway-svc:
-    build:
-      context: ./api-gateway-svc
-      dockerfile: Dockerfile
-    image: api-gateway-svc
-    container_name: api-gateway-svc
-    ports:
-      - "8200:3000"
-    volumes:
-      - ./api-gateway-svc:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
-    networks:
-      - app-network
-    depends_on:
-      - grafana
-    stdin_open: true
-    tty: true
+  # api-gateway-svc:
+  #   build:
+  #     context: ./api-gateway-svc
+  #     dockerfile: Dockerfile
+  #   image: api-gateway-svc
+  #   container_name: api-gateway-svc
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - ./api-gateway-svc:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - grafana
+  #   stdin_open: true
+  #   tty: true
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
@@ -130,7 +130,7 @@ services:
   grafana:
     image: grafana/grafana
     ports:
-      - "3001:3000"
+      - "3005:3000"
     depends_on:
       - prometheus
     networks:
