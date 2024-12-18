@@ -9,6 +9,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { ProductElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { Logger } from '../logger/logger.service';
 
 @Injectable()
 export class ProductService {
@@ -16,6 +17,7 @@ export class ProductService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     private elasticsearchService: ProductElasticsearchService,
+    private logger: Logger
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
@@ -34,6 +36,7 @@ export class ProductService {
   }
 
   async findAll(): Promise<Product[]> {
+    this.logger.log("testsss")
     return this.productRepository.find();
   }
 

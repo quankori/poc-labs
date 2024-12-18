@@ -87,6 +87,7 @@ export class ProductElasticsearchService implements OnModuleInit {
         },
       },
     });
+    console.log(results)
     return results.hits.hits.map((hit: any) => ({
       sku: hit._source.sku,
       spu: hit._source.spu,

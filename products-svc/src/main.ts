@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { Logger } from './modules/logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

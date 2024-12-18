@@ -5,6 +5,7 @@ import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { ProductElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { ProductService } from './products.service';
 import { Product } from './entities/product.entity';
+import { Logger } from '../logger/logger.service';
 
 // Define a type for the mocked Repository
 type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
@@ -50,6 +51,7 @@ describe('ProductService', () => {
           provide: ProductElasticsearchService,
           useValue: createMockElasticsearchService(),
         },
+        Logger
       ],
     }).compile();
 

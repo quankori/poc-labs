@@ -5,6 +5,9 @@ import { ProductsModule } from './modules/products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './modules/products/entities/product.entity';
 import { SearchModule } from './modules/elasticsearch/elasticsearch.module';
+import { Logger } from './modules/logger/logger.service';
+import { ProductService } from './modules/products/products.service';
+import { ProductElasticsearchService } from './modules/elasticsearch/elasticsearch.service';
 
 @Module({
   imports: [
@@ -22,6 +25,6 @@ import { SearchModule } from './modules/elasticsearch/elasticsearch.module';
     SearchModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {}
