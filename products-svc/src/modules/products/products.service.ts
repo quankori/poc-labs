@@ -17,10 +17,11 @@ export class ProductService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     private elasticsearchService: ProductElasticsearchService,
-    private logger: Logger
+    private logger: Logger,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
+    this.logger.log(JSON.stringify(createProductDto));
     const existing = await this.productRepository.findOne({
       where: { sku: createProductDto.sku },
     });
@@ -36,11 +37,12 @@ export class ProductService {
   }
 
   async findAll(): Promise<Product[]> {
-    this.logger.log("testsss")
+    this.logger.log('Find all products');
     return this.productRepository.find();
   }
 
   async findOne(sku: string): Promise<Product> {
+    this.logger.log(JSON.stringify(sku));
     const product = await this.productRepository.findOne({ where: { sku } });
     if (!product) {
       throw new NotFoundException(`Product with SKU ${sku} not found`);
@@ -52,6 +54,7 @@ export class ProductService {
     sku: string,
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
+    this.logger.log(JSON.stringify(updateProductDto));
     const product = await this.productRepository.preload({
       sku: sku,
       ...updateProductDto,
@@ -65,6 +68,7 @@ export class ProductService {
   }
 
   async remove(sku: string): Promise<boolean> {
+    this.logger.log(JSON.stringify(sku));
     const result = await this.productRepository.delete(sku);
     if (result.affected === 0) {
       throw new NotFoundException(`Product with SKU ${sku} not found`);
@@ -74,6 +78,7 @@ export class ProductService {
   }
 
   async search(query: string): Promise<Product[]> {
+    this.logger.log(JSON.stringify(query));
     return this.elasticsearchService.searchBySkuOrSpu(query);
   }
 }

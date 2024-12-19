@@ -89,6 +89,28 @@ services:
   #   stdin_open: true
   #   tty: true
 
+  # products-svc:
+  #   build:
+  #     context: ./products-svc
+  #     dockerfile: Dockerfile
+  #   image: products-svc
+  #   container_name: products-svc
+  #   ports:
+  #     - "8100:8100"
+  #   volumes:
+  #     - ./products-svc:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - postgres
+  #     - mongo
+  #     - elasticsearch
+  #   stdin_open: true
+  #   tty: true
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
     environment:
@@ -104,7 +126,7 @@ services:
     volumes:
       - ./devops/logstash/pipeline:/usr/share/logstash/pipeline
     ports:
-      - "5000:5000"
+      - "5001:5000"
     depends_on:
       - elasticsearch
     networks:
@@ -134,7 +156,7 @@ services:
     image: docker.elastic.co/beats/filebeat:7.17.0
     user: root
     volumes:
-      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./devops/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./products-svc/logs:/var/log/nestjs
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro

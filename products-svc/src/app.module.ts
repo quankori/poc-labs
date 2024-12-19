@@ -6,14 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './modules/products/entities/product.entity';
 import { SearchModule } from './modules/elasticsearch/elasticsearch.module';
 import { Logger } from './modules/logger/logger.service';
-import { ProductService } from './modules/products/products.service';
-import { ProductElasticsearchService } from './modules/elasticsearch/elasticsearch.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'postgres',
       port: 5432,
       username: 'myuser',
       password: 'mypassword',

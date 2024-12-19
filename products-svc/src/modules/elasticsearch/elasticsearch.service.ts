@@ -77,17 +77,31 @@ export class ProductElasticsearchService implements OnModuleInit {
   }
 
   async searchBySkuOrSpu(query: string) {
+    const esQuery: any = {
+      bool: {
+        must: [],
+        filter: [],
+      },
+    };
+    // Exact match filter for 'sku'
+    if (query) {
+      esQuery.bool.filter.push({ term: { sku: query } });
+    }
+
     const results = await this.elasticsearchService.search({
       index: this.index,
       body: {
-        query: {
-          bool: {
-            should: [{ match: { sku: query } }, { match: { spu: query } }],
+        query: esQuery,
+        highlight: {
+          pre_tags: ['<mark>'],
+          post_tags: ['</mark>'],
+          fields: {
+            name: {},
           },
         },
       },
     });
-    console.log(results)
+    console.log(results);
     return results.hits.hits.map((hit: any) => ({
       sku: hit._source.sku,
       spu: hit._source.spu,
