@@ -1,24 +1,33 @@
 import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
 import * as winston from 'winston';
-const LogstashTransport = require('winston-logstash/lib/winston-logstash-latest');
+import 'winston-daily-rotate-file';
+import * as path from 'path';
 
 @Injectable()
 export class Logger implements NestLoggerService {
   private logger: winston.Logger;
 
   constructor() {
+    const logDirectory = path.resolve(__dirname, '../../../logs');
+
     this.logger = winston.createLogger({
       level: 'info',
-      format: winston.format.json(),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
       transports: [
-        new LogstashTransport({
-          port: 5000,
-          node_name: 'my node name',
-          host: '127.0.0.1',
+        new winston.transports.DailyRotateFile({
+          dirname: logDirectory,
+          filename: 'application-%DATE%.log',
+          datePattern: 'YYYY-MM-DD',
+          zippedArchive: true,
+          maxSize: '20m',
+          maxFiles: '14d',
         }),
         new winston.transports.Console({
           format: winston.format.combine(
-            winston.format.timestamp(),
+            winston.format.colorize(),
             winston.format.simple(),
           ),
         }),
