@@ -48,6 +48,16 @@ services:
     networks:
       - app-network
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./devops/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - app-network
+
   # notification-svc:
   #   build:
   #     context: ./notification-svc
@@ -89,27 +99,28 @@ services:
   #   stdin_open: true
   #   tty: true
 
-  # products-svc:
-  #   build:
-  #     context: ./products-svc
-  #     dockerfile: Dockerfile
-  #   image: products-svc
-  #   container_name: products-svc
-  #   ports:
-  #     - "8100:8100"
-  #   volumes:
-  #     - ./products-svc:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - NODE_ENV=development
-  #   networks:
-  #     - app-network
-  #   depends_on:
-  #     - postgres
-  #     - mongo
-  #     - elasticsearch
-  #   stdin_open: true
-  #   tty: true
+  products-svc:
+    build:
+      context: ./products-svc
+      dockerfile: Dockerfile
+    image: products-svc
+    container_name: products-svc
+    ports:
+      - "8100:8100"
+      - "50051:50051" # gRPC
+    volumes:
+      - ./products-svc:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+      - mongo
+      - elasticsearch
+    stdin_open: true
+    tty: true
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
@@ -155,9 +166,10 @@ services:
   filebeat:
     image: docker.elastic.co/beats/filebeat:7.17.0
     user: root
+    command: filebeat -e -strict.perms=false
     volumes:
-      - ./devops/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./products-svc/logs:/var/log/nestjs
+      - ./devops/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./products-svc/logs:/var/log/nestjs:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:

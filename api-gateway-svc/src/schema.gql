@@ -1,0 +1,40 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ProductType {
+  sku: String!
+  spu: String!
+  name: String!
+  price: Float!
+}
+
+type DeleteProductResponseType {
+  success: Boolean!
+}
+
+type Query {
+  getProduct(sku: String!): ProductType
+  listProducts: [ProductType!]!
+  searchProducts(query: String!): [ProductType!]!
+}
+
+type Mutation {
+  createProduct(product: CreateProductInput!): ProductType!
+  updateProduct(sku: String!, product: UpdateProductInput!): ProductType!
+  deleteProduct(sku: String!): DeleteProductResponseType!
+}
+
+input CreateProductInput {
+  sku: String!
+  spu: String!
+  name: String!
+  price: Float!
+}
+
+input UpdateProductInput {
+  sku: String!
+  spu: String!
+  name: String!
+  price: Float!
+}

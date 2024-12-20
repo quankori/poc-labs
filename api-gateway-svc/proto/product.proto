@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package product;
+
+// The product service definition.
+service ProductService {
+  rpc CreateProduct (CreateProductRequest) returns (ProductResponse);
+  rpc GetProduct (GetProductRequest) returns (ProductResponse);
+  rpc UpdateProduct (UpdateProductRequest) returns (ProductResponse);
+  rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse);
+  rpc ListProducts (ListProductsRequest) returns (ListProductsResponse);
+  rpc SearchProducts (SearchProductsRequest) returns (ListProductsResponse);
+}
+
+// Message definitions
+message Product {
+  string sku = 1;
+  string spu = 2;
+  string name = 3;
+  double price = 4;
+}
+
+message CreateProductRequest {
+  Product product = 1;
+}
+
+message GetProductRequest {
+  string sku = 1;
+}
+
+message UpdateProductRequest {
+  string sku = 1;
+  Product product = 2;
+}
+
+message DeleteProductRequest {
+  string sku = 1;
+}
+
+message DeleteProductResponse {
+  bool success = 1;
+}
+
+message ListProductsRequest {}
+
+message ListProductsResponse {
+  repeated Product products = 1;
+}
+
+message SearchProductsRequest {
+  string query = 1;
+}
+
+message ProductResponse {
+  Product product = 1;
+}
