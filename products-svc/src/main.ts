@@ -26,6 +26,6 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>(grpcOptions);
 
   await app.startAllMicroservices();
-  await app.listen(process.env.PORT ?? 8300);
+  await app.listen(process.env.PORT ?? 8100);
 }
 bootstrap();
