@@ -13,8 +13,8 @@ import { join } from 'path';
         transport: Transport.GRPC,
         options: {
           package: 'product',
-          protoPath: join(__dirname, '../../../proto/product.proto'), // Adjust the path if necessary
-          url: 'localhost:50051',
+          protoPath: join(__dirname, '../../../proto/product.proto'),
+          url: 'products-svc:50051',
         },
       },
     ]),

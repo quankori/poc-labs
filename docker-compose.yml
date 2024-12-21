@@ -57,6 +57,8 @@ services:
       - ./devops/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - app-network
+    depends_on:
+      - api-gateway-svc
 
   # notification-svc:
   #   build:
@@ -79,25 +81,28 @@ services:
   #   stdin_open: true
   #   tty: true
 
-  # api-gateway-svc:
-  #   build:
-  #     context: ./api-gateway-svc
-  #     dockerfile: Dockerfile
-  #   image: api-gateway-svc
-  #   container_name: api-gateway-svc
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - ./api-gateway-svc:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - NODE_ENV=development
-  #   networks:
-  #     - app-network
-  #   depends_on:
-  #     - grafana
-  #   stdin_open: true
-  #   tty: true
+  api-gateway-svc:
+    build:
+      context: ./api-gateway-svc
+      dockerfile: Dockerfile
+    image: api-gateway-svc
+    container_name: api-gateway-svc
+    volumes:
+      - ./api-gateway-svc:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - app-network
+    depends_on:
+      - grafana
+      - products-svc
+      - postgres
+      - mongo
+      - redis
+      - prometheus
+    stdin_open: true
+    tty: true
 
   products-svc:
     build:
@@ -106,7 +111,6 @@ services:
     image: products-svc
     container_name: products-svc
     ports:
-      - "8100:8100"
       - "50051:50051" # gRPC
     volumes:
       - ./products-svc:/usr/src/app

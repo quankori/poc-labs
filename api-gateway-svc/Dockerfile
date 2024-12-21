@@ -18,7 +18,7 @@ RUN npm install -g @nestjs/cli
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 8000
 
 # Command to run the app in development mode
 CMD ["npm", "run", "start:dev"]
