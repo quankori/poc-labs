@@ -1,7 +1,20 @@
-# Sample eCommerce Product for Test System Design
-
-Welcome to the **Sample eCommerce Product** project! This repository provides a comprehensive example of an eCommerce application designed specifically for testing system designs. Whether you're evaluating architectural patterns, testing scalability, or experimenting with new technologies, this project serves as an ideal foundation.
+# PDF Processing and AI Analysis System
 
 ## Project Overview
 
-The **Sample eCommerce Product** is a fully functional eCommerce platform built to simulate real-world scenarios for system design testing. It includes essential components such as user authentication, product management, shopping cart, order processing.
+The PDF Processing and AI Analysis System is a scalable, event-driven platform designed to handle PDF uploads, process their content, and perform AI-driven analyses. Utilizing modern technologies such as NestJS, gRPC, Apache Kafka, MongoDB, LangChain, the ELK Stack for logging, and Prometheus with Grafana for monitoring, this system adheres to the CQRS (Command Query Responsibility Segregation) pattern to ensure efficient command handling and data querying.
+
+## High-Level Architecture
+
+The following diagram illustrates the high-level architecture of the system, showcasing the interaction between various components:
+
+[![](https://mermaid.ink/img/pako:eNqFlN9r2zAQx_-Vw1DooGHveRg0dn41C2TN-jJ7lIt9dkRtyUhySqn7v0-WnERJ00wPxvrq7nM6nU7vQSoyCoZBIbHewu8o4WCGajZOmEjBNfHMyd24j58USZgbWeaY0l-3ZG3OnO9X8-cpanrFt6P_KMaaDQonD9QuvQJYklJY0PNIiheSR8Y4XmD-gtc8WSqF2eeOpaSOjmFcZ7kXtBtRjOw_-4hQ4waVT5rES8ELEY2uuP0URcF4cXSaxkZSGtXWiz-LxyUqzVJFKFN_ZR4v2Ab51TwFZ1rIkygP8UqKivSWGuXRFvFUYn4Rd3NzKLQrLKaaiX7xHgaDH-1TXQrMYBVN4Dv8aki-tTDy_E2toa81aAG2PnAbiqpCA12zjL4525HFrZpNydQWeoNhB3YhKGth_DW4rx_sGELxuArhtvuEWJbqJECxl4cwJW3oa426US2EHtvt0qMeNjwzn5JkjxxbZCi4air6Ys8-d4-rpTDXT5nqQAdVrlKQmevkbEMLXhud7CVrYXIJ4w6LFNCOuAbMTYk8uM_aH-y4s7RbXDm783M95O5uP9xaj6uJX2RGHrNHdUeibJaQm5sIfac4s8giH8lcps8Z9x0Dk1K8-tXs2qaFqZ_oiRR9lqadBDM3mdnJ3It0bJxPwZakpenGFh78eOdqdFF9sIEWCQ_ugopkhSwzj-t7t5gEpiMrSoKh-c0ox6bUSZDwD2OKjRbrN54GQy0bugukaIptMMyxVGbW1OYsKWJoer46qDXyP0Ic55R1CS3dc25f9Y9_XbTTfA?type=png)](https://mermaid.live/edit#pako:eNqFlN9r2zAQx_-Vw1DooGHveRg0dn41C2TN-jJ7lIt9dkRtyUhySqn7v0-WnERJ00wPxvrq7nM6nU7vQSoyCoZBIbHewu8o4WCGajZOmEjBNfHMyd24j58USZgbWeaY0l-3ZG3OnO9X8-cpanrFt6P_KMaaDQonD9QuvQJYklJY0PNIiheSR8Y4XmD-gtc8WSqF2eeOpaSOjmFcZ7kXtBtRjOw_-4hQ4waVT5rES8ELEY2uuP0URcF4cXSaxkZSGtXWiz-LxyUqzVJFKFN_ZR4v2Ab51TwFZ1rIkygP8UqKivSWGuXRFvFUYn4Rd3NzKLQrLKaaiX7xHgaDH-1TXQrMYBVN4Dv8aki-tTDy_E2toa81aAG2PnAbiqpCA12zjL4525HFrZpNydQWeoNhB3YhKGth_DW4rx_sGELxuArhtvuEWJbqJECxl4cwJW3oa426US2EHtvt0qMeNjwzn5JkjxxbZCi4air6Ys8-d4-rpTDXT5nqQAdVrlKQmevkbEMLXhud7CVrYXIJ4w6LFNCOuAbMTYk8uM_aH-y4s7RbXDm783M95O5uP9xaj6uJX2RGHrNHdUeibJaQm5sIfac4s8giH8lcps8Z9x0Dk1K8-tXs2qaFqZ_oiRR9lqadBDM3mdnJ3It0bJxPwZakpenGFh78eOdqdFF9sIEWCQ_ugopkhSwzj-t7t5gEpiMrSoKh-c0ox6bUSZDwD2OKjRbrN54GQy0bugukaIptMMyxVGbW1OYsKWJoer46qDXyP0Ic55R1CS3dc25f9Y9_XbTTfA)
+
+## Run server
+
+```bash
+docker-compose -f docker-compose.database.yml up -d
+docker-compose -f docker-compose.logging.yml up -d
+docker-compose -f docker-compose.monitoring.yml up -d
+docker-compose -f docker-compose.server.yml up -d
+```

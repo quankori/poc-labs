@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo-svc
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_DB: mydatabase
+    volumes:
+      - mongo-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-svc
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379" # Redis default port
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  mongo-event-store:
+    image: mongo
+    container_name: mongo-event-store-svc
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_DB: event-stored
+    command: mongod --replSet event-store-repl-set
+    volumes:
+      - ./devops/scripts/js/event-store-mongoinit.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - app-network
+      
+volumes:
+  mongo-data:
+    driver: local
+  mongo-event-store:
+    driver: local
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

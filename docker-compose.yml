@@ -60,27 +60,6 @@ services:
     depends_on:
       - api-gateway-svc
 
-  # notification-svc:
-  #   build:
-  #     context: ./notification-svc
-  #     dockerfile: Dockerfile
-  #   image: notification-svc
-  #   container_name: notification-svc
-  #   ports:
-  #     - "8100:8100"
-  #   volumes:
-  #     - ./notification-svc:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - NODE_ENV=development
-  #   networks:
-  #     - app-network
-  #   depends_on:
-  #     - postgres
-  #     - mongo
-  #   stdin_open: true
-  #   tty: true
-
   api-gateway-svc:
     build:
       context: ./api-gateway-svc
@@ -96,33 +75,11 @@ services:
       - app-network
     depends_on:
       - grafana
-      - products-svc
       - postgres
       - mongo
       - redis
       - prometheus
-    stdin_open: true
-    tty: true
-
-  products-svc:
-    build:
-      context: ./products-svc
-      dockerfile: Dockerfile
-    image: products-svc
-    container_name: products-svc
-    ports:
-      - "50051:50051" # gRPC
-    volumes:
-      - ./products-svc:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
-    networks:
-      - app-network
-    depends_on:
-      - postgres
-      - mongo
-      - elasticsearch
+      - kafka
     stdin_open: true
     tty: true
 
@@ -190,6 +147,23 @@ services:
       - prometheus
     networks:
       - app-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
 volumes:
   mongo-data:
