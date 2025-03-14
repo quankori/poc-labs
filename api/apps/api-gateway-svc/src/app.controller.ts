@@ -7,6 +7,7 @@ import {
   HttpHealthIndicator,
 } from '@nestjs/terminus';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
+
 import { Counter, Registry } from 'prom-client';
 
 @Controller()

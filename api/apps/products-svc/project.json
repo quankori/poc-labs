@@ -1,0 +1,23 @@
+{
+  "name": "products-svc",
+  "sourceRoot": "apps/products-svc/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "rootDir": "apps/products-svc",
+        "outputPath": "dist/apps/products-svc",
+        "tsConfig": "apps/products-svc/tsconfig.json",
+        "main": "apps/products-svc/src/main.ts",
+        "assets": ["apps/products-svc/*.md"]
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "products-svc:build"
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "projects": {
+    "api-gateway-svc": "apps/api-gateway-svc",
+    "products-svc": "apps/products-svc"
+  }
+}

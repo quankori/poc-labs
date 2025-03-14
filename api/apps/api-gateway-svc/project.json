@@ -1,0 +1,23 @@
+{
+  "name": "api-gateway-svc",
+  "sourceRoot": "apps/api-gateway-svc/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "rootDir": "apps/api-gateway-svc",
+        "outputPath": "dist/apps/api-gateway-svc",
+        "tsConfig": "apps/api-gateway-svc/tsconfig.json",
+        "main": "apps/api-gateway-svc/src/main.ts",
+        "assets": ["apps/api-gateway-svc/*.md"]
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "api-gateway-svc:build"
+      }
+    }
+  }
+}
